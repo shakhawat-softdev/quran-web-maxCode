@@ -1,0 +1,12 @@
+{
+  "projects": [
+    {
+      "name": "quran-api",
+      "root": "backend"
+    },
+    {
+      "name": "quran-frontend",
+      "root": "frontend"
+    }
+  ]
+}
