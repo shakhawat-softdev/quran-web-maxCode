@@ -85,7 +85,7 @@ function mapBackendAyahToFrontend(ayah: BackendAyah): Ayah {
 export async function getSurahs(): Promise<Surah[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/surahs`, {
-      // next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
+      next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
     });
 
     if (!response.ok) {
@@ -151,7 +151,7 @@ export async function getSurahDetail(
 ): Promise<{ surah: Surah; ayahs: Ayah[] } | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/surah/${id}`, {
-      // next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
+      next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
     });
 
     if (response.status === 404) {
