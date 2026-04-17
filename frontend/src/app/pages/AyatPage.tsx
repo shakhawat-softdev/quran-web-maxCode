@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useParams, Link } from 'react-router';
-import { motion } from 'motion/react';
-import { ArrowLeft, Menu, BookOpen } from 'lucide-react';
-import { getSurahByNumber, getAyahsBySurah } from '../data/quran-data';
-import { AyahItem } from '../components/AyahItem';
-import { SettingsSidebar } from '../components/SettingsSidebar';
+import { useState } from "react";
+import { useParams, Link } from "react-router";
+import { motion } from "motion/react";
+import { ArrowLeft, Menu, BookOpen } from "lucide-react";
+import { getSurahByNumber, getAyahsBySurah } from "../data/quran-data";
+import { AyahItem } from "../components/AyahItem";
+import { SettingsSidebar } from "../components/SettingsSidebar";
 
 export function AyatPage() {
   const { surahNumber } = useParams<{ surahNumber: string }>();
@@ -17,7 +17,9 @@ export function AyatPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h2 className="font-['Poppins'] text-foreground mb-2">Surah not found</h2>
+          <h2 className="font-['Poppins'] text-foreground mb-2">
+            Surah not found
+          </h2>
           <Link to="/" className="text-primary hover:underline">
             Return to home
           </Link>
@@ -28,7 +30,10 @@ export function AyatPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <SettingsSidebar isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
+      <SettingsSidebar
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+      />
 
       {/* Sticky Header */}
       <header className="sticky top-0 bg-card/95 backdrop-blur-lg border-b border-border z-30 shadow-sm">
@@ -52,9 +57,13 @@ export function AyatPage() {
                   <h1 className="font-['Poppins'] font-semibold text-foreground">
                     {surah.englishName}
                   </h1>
-                  <span className="font-['Amiri'] text-xl text-primary">{surah.name}</span>
+                  <span className="font-['Amiri'] text-xl text-primary">
+                    {surah.name}
+                  </span>
                 </div>
-                <p className="text-sm text-muted-foreground">{surah.englishNameTranslation}</p>
+                <p className="text-sm text-muted-foreground">
+                  {surah.englishNameTranslation}
+                </p>
               </div>
             </div>
           </div>
@@ -74,8 +83,12 @@ export function AyatPage() {
               <BookOpen className="w-8 h-8" />
             </div>
             <h2 className="font-['Amiri'] text-4xl mb-2">{surah.name}</h2>
-            <h3 className="font-['Poppins'] text-xl mb-3">{surah.englishName}</h3>
-            <p className="text-primary-foreground/90 mb-4">{surah.englishNameTranslation}</p>
+            <h3 className="font-['Poppins'] text-xl mb-3">
+              {surah.englishName}
+            </h3>
+            <p className="text-primary-foreground/90 mb-4">
+              {surah.englishNameTranslation}
+            </p>
             <div className="flex items-center justify-center gap-6 text-sm">
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4" />
@@ -124,7 +137,9 @@ export function AyatPage() {
             <div className="w-16 h-16 rounded-full bg-muted mx-auto mb-4 flex items-center justify-center">
               <BookOpen className="w-8 h-8 text-muted-foreground" />
             </div>
-            <h3 className="font-['Poppins'] text-foreground mb-2">Ayahs coming soon</h3>
+            <h3 className="font-['Poppins'] text-foreground mb-2">
+              Ayahs coming soon
+            </h3>
             <p className="text-muted-foreground mb-6">
               This surah's verses will be available shortly
             </p>
