@@ -1,5 +1,6 @@
 // Quran dataset with all 114 surahs
-// This data structure can be extended with full ayahs from public datasets
+// Complete ayah data loaded from external JSON file
+import ayahDataJSON from "./quran-complete.json" assert { type: "json" };
 
 export interface Ayah {
   ayah_number: number;
@@ -1049,107 +1050,16 @@ export const surahMetadata: Surah[] = [
   },
 ];
 
-// Sample Ayahs for a few surahs (for production, integrate full dataset)
-const ayahDatabase: Record<number, Ayah[]> = {
-  1: [
-    // Al-Fatihah
-    {
-      ayah_number: 1,
-      arabic_text: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-      translation: "In the name of Allah, the Most Gracious, the Most Merciful",
-    },
-    {
-      ayah_number: 2,
-      arabic_text: "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
-      translation: "All praise is due to Allah, Lord of all the worlds",
-    },
-    {
-      ayah_number: 3,
-      arabic_text: "الرَّحْمَٰنِ الرَّحِيمِ",
-      translation: "The Most Gracious, the Most Merciful",
-    },
-    {
-      ayah_number: 4,
-      arabic_text: "مَالِكِ يَوْمِ الدِّينِ",
-      translation: "Master of the Day of Judgment",
-    },
-    {
-      ayah_number: 5,
-      arabic_text: "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
-      translation: "It is You we worship and upon You we rely for help",
-    },
-    {
-      ayah_number: 6,
-      arabic_text: "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
-      translation: "Guide us to the straight path",
-    },
-    {
-      ayah_number: 7,
-      arabic_text:
-        "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
-      translation:
-        "The path of those upon whom You have bestowed favor, not of those who have earned Your anger, nor of those who go astray",
-    },
-  ],
-  2: [
-    // Al-Baqarah (sample)
-    { ayah_number: 1, arabic_text: "الم", translation: "Alif, Lam, Meem" },
-    {
-      ayah_number: 2,
-      arabic_text:
-        "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
-      translation:
-        "This is the Book about which there is no doubt, a guidance for those conscious of Allah",
-    },
-    {
-      ayah_number: 3,
-      arabic_text:
-        "الَّذِينَ يُؤْمِنُونَ بِالْغَيْبِ وَيُقِيمُونَ الصَّلَاةَ وَمِمَّا رَزَقْنَاهُمْ يُنفِقُونَ",
-      translation:
-        "Who believe in the unseen, establish prayer, and spend out of what We have provided for them",
-    },
-    {
-      ayah_number: 4,
-      arabic_text:
-        "وَالَّذِينَ يُؤْمِنُونَ بِمَا أُنزِلَ إِلَيْكَ وَمَا أُنزِلَ مِن قَبْلِكَ وَبِالْآخِرَةِ هُمْ يُوقِنُونَ",
-      translation:
-        "And who believe in what has been revealed to you and what was revealed before you, and of the Hereafter they are certain",
-    },
-    {
-      ayah_number: 5,
-      arabic_text:
-        "أُولَٰئِكَ عَلَىٰ هُدًى مِّن رَّبِّهِمْ ۖ وَأُولَٰئِكَ هُمُ الْمُفْلِحُونَ",
-      translation:
-        "Those are upon guidance from their Lord, and it is those who are the successful",
-    },
-  ],
-  19: [
-    // Maryam (sample)
-    {
-      ayah_number: 1,
-      arabic_text: "كهيعص",
-      translation: "Kaf, Ha, Ya, Ain, Sad",
-    },
-    {
-      ayah_number: 2,
-      arabic_text: "ذِكْرُ رَحْمَةِ رَبِّكَ عَبْدَهُ زَكَرِيَّا",
-      translation:
-        "A mention of the mercy of your Lord to His servant Zechariah",
-    },
-    {
-      ayah_number: 3,
-      arabic_text: "إِذْ نَادَىٰ رَبَّهُ نِدَاءً خَفِيًّا",
-      translation: "When he called to his Lord with a private supplication",
-    },
-    {
-      ayah_number: 4,
-      arabic_text:
-        "قَالَ رَبِّ إِنِّي وَهَنَ الْعَظْمُ مِنِّي وَاشْتَعَلَ الرَّأْسُ شَيْبًا وَلَمْ أَكُن بِدُعَائِكَ رَبِّ شَقِيًّا",
-      translation:
-        "He said, 'My Lord, indeed my bones have weakened, and filled with white is my head, and never have I been in my supplication to You, my Lord, unhappy'",
-    },
-  ],
-};
+// Complete Ayah database loaded from quran-complete.json
+// Contains all ayahs for all 114 surahs of the Quran
+const ayahDatabase: Record<number, Ayah[]> = (() => {
+  const data: Record<number, Ayah[]> = {};
+  for (const [key, value] of Object.entries(ayahDataJSON)) {
+    const surahId = parseInt(key, 10);
+    data[surahId] = value as Ayah[];
+  }
+  return data;
+})();
 
 export function getAyahsBySurah(surahId: number): Ayah[] {
   return ayahDatabase[surahId] || [];
