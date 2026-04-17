@@ -1,22 +1,8 @@
+import { type Surah, type Ayah } from "@/lib/quran-data";
+
 // Get backend API URL from environment or default to local
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-// Frontend Data Types
-export interface Surah {
-  number: number;
-  name: string;
-  englishName: string;
-  englishNameTranslation: string;
-  numberOfAyahs: number;
-  revelationType: "Meccan" | "Medinan";
-}
-
-export interface Ayah {
-  number: number;
-  text: string;
-  translation: string;
-  surah: number;
-}
 
 // Backend response types
 interface BackendSurah {
