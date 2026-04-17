@@ -16,7 +16,6 @@ interface SurahListClientProps {
 export function SurahListClient({ initialSurahs }: SurahListClientProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
-
   const filteredSurahs = useMemo(() => {
     return initialSurahs.filter((surah) => {
       const query = searchQuery.toLowerCase();

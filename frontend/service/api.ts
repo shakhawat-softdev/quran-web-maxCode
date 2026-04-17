@@ -1,7 +1,22 @@
-import type { Surah, Ayah } from "./quran-data";
-
 // Get backend API URL from environment or default to local
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+
+// Frontend Data Types
+export interface Surah {
+  number: number;
+  name: string;
+  englishName: string;
+  englishNameTranslation: string;
+  numberOfAyahs: number;
+  revelationType: "Meccan" | "Medinan";
+}
+
+export interface Ayah {
+  number: number;
+  text: string;
+  translation: string;
+  surah: number;
+}
 
 // Backend response types
 interface BackendSurah {
@@ -84,7 +99,7 @@ function mapBackendAyahToFrontend(ayah: BackendAyah): Ayah {
 export async function getSurahs(): Promise<Surah[]> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/surahs`, {
-      next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
+      // next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
     });
 
     if (!response.ok) {
@@ -150,7 +165,7 @@ export async function getSurahDetail(
 ): Promise<{ surah: Surah; ayahs: Ayah[] } | null> {
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/surah/${id}`, {
-      next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
+      // next: { revalidate: 3600 }, // ISR: revalidate every 1 hour
     });
 
     if (response.status === 404) {

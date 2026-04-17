@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const resolvedParams = await params;
     const surahNumber = Number(resolvedParams.id);
     const result = await getSurahDetail(surahNumber);
-
+    console.log("result", result);
     if (!result) {
       return {
         title: "Surah Not Found",
