@@ -6,7 +6,7 @@ import {
   corsMiddleware,
   loggingMiddleware,
   errorMiddleware,
-  rateLimiter
+  rateLimiter,
 } from "./middleware/index.js";
 
 // Create Hono app
@@ -29,12 +29,15 @@ const HOST = process.env.HOST || "0.0.0.0";
 console.log(`🚀 Quran API Server starting...`);
 console.log(`📍 Environment: ${process.env.NODE_ENV || "development"}`);
 console.log(`🔗 Listening on http://${HOST}:${PORT}`);
-console.log(`📚 API Documentation available at http://${HOST}:${PORT}/api/v1/info`);
+console.log(`� Swagger UI Documentation: http://${HOST}:${PORT}/api-docs`);
+console.log(`📚 API Info: http://${HOST}:${PORT}/api/v1/info`);
 console.log(`💾 Cache TTL: ${process.env.CACHE_TTL || "3600000"}ms`);
-console.log(`🛡️  Rate Limit: ${process.env.RATE_LIMIT_MAX || "100"} requests per ${process.env.RATE_LIMIT_WINDOW || "900000"}ms`);
+console.log(
+  `🛡️  Rate Limit: ${process.env.RATE_LIMIT_MAX || "100"} requests per ${process.env.RATE_LIMIT_WINDOW || "900000"}ms`,
+);
 
 serve({
   fetch: app.fetch,
   port: PORT,
-  hostname: HOST
+  hostname: HOST,
 });

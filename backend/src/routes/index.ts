@@ -1,8 +1,14 @@
 // API Routes
 import type { Hono } from "hono";
+import { swaggerUI } from "@hono/swagger-ui";
 import { QuranController } from "../controllers/quran.js";
+import { getOpenAPISchema } from "./openapi-schema.js";
 
 export function setupRoutes(app: Hono): void {
+  // Swagger UI documentation
+  app.get("/api-docs", swaggerUI({ url: "/openapi.json" }));
+  app.get("/openapi.json", (c) => c.json(getOpenAPISchema()));
+
   // API v1 routes - using /api/v1 prefix
 
   // Get all surahs
@@ -21,9 +27,9 @@ export function setupRoutes(app: Hono): void {
       data: {
         status: "healthy",
         timestamp: new Date().toISOString(),
-        version: "1.0.0"
-      }
-    })
+        version: "1.0.0",
+      },
+    }),
   );
 
   // API info endpoint
@@ -39,17 +45,17 @@ export function setupRoutes(app: Hono): void {
           surahs: "/api/v1/surahs",
           surah: "/api/v1/surah/:id",
           search: "/api/v1/search?q=query&page=1&limit=20",
-          health: "/api/v1/health"
+          health: "/api/v1/health",
         },
         features: [
           "In-memory caching with TTL",
           "Full-text search with pagination",
           "Rate limiting (100 requests per 15 minutes)",
           "CORS enabled",
-          "Comprehensive error handling"
-        ]
-      }
-    })
+          "Comprehensive error handling",
+        ],
+      },
+    }),
   );
 
   // API Documentation
@@ -65,42 +71,55 @@ export function setupRoutes(app: Hono): void {
             method: "GET",
             description: "Get all 114 surahs",
             parameters: [],
-            example: "GET /api/v1/surahs"
+            example: "GET /api/v1/surahs",
           },
           {
             path: "/surah/:id",
             method: "GET",
             description: "Get specific surah with all ayahs",
             parameters: [{ name: "id", type: "number", required: true }],
-            example: "GET /api/v1/surah/1"
+            example: "GET /api/v1/surah/1",
           },
           {
             path: "/search",
             method: "GET",
             description: "Search ayahs by translation text",
             parameters: [
-              { name: "q", type: "string", required: true, description: "Search query" },
+              {
+                name: "q",
+                type: "string",
+                required: true,
+                description: "Search query",
+              },
               { name: "page", type: "number", required: false, default: 1 },
-              { name: "limit", type: "number", required: false, default: 20, max: 100 }
+              {
+                name: "limit",
+                type: "number",
+                required: false,
+                default: 20,
+                max: 100,
+              },
             ],
-            example: "GET /api/v1/search?q=mercy&page=1&limit=20"
+            example: "GET /api/v1/search?q=mercy&page=1&limit=20",
           },
           {
             path: "/health",
             method: "GET",
             description: "Health check endpoint",
-            example: "GET /api/v1/health"
-          }
-        ]
-      }
-    })
+            example: "GET /api/v1/health",
+          },
+        ],
+      },
+    }),
   );
 
   // Root path redirects to info
-  app.get("/", (c) => c.json({
-    message: "Quran API - See /api/v1/info for documentation",
-    doc: "Use /api/v1/surahs, /api/v1/surah/:id, or /api/v1/search?q=..."
-  }));
+  app.get("/", (c) =>
+    c.json({
+      message: "Quran API - See /api/v1/info for documentation",
+      doc: "Use /api/v1/surahs, /api/v1/surah/:id, or /api/v1/search?q=...",
+    }),
+  );
 
   // 404 handler
   app.all("*", (c) =>
@@ -109,7 +128,8 @@ export function setupRoutes(app: Hono): void {
         success: false,
         error: {
           code: "NOT_FOUND",
-          message: "Endpoint not found. See /api/v1/info for available endpoints",
+          message:
+            "Endpoint not found. See /api/v1/info for available endpoints",
           status: 404,
           requested_path: c.req.path,
           available_endpoints: {
@@ -118,11 +138,11 @@ export function setupRoutes(app: Hono): void {
             search: "/api/v1/search",
             info: "/api/v1/info",
             docs: "/api/v1/docs",
-            health: "/api/v1/health"
-          }
-        }
+            health: "/api/v1/health",
+          },
+        },
       },
-      404
-    )
+      404,
+    ),
   );
 }
