@@ -1,7 +1,7 @@
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
-import { getSurahById, getAyahsBySurah, getAllSurahNumbers } from '@/lib/api';
-import SurahDetailClient from './SurahDetailClient';
+import { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { getSurahs, getSurahDetail } from "@/lib/api";
+import SurahDetailClient from "./SurahDetailClient";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -9,42 +9,78 @@ type Props = {
 
 // Generate static params for all 114 surahs (SSG)
 export async function generateStaticParams() {
-  const surahNumbers = await getAllSurahNumbers();
-  return surahNumbers.map((num) => ({
-    id: num.toString(),
-  }));
+  try {
+    const surahs = await getSurahs();
+    return surahs.map((surah) => ({
+      id: surah.number.toString(),
+    }));
+  } catch (error) {
+    console.error("Error generating static params:", error);
+    // Return an empty array on error - ISR will handle it
+    return [];
+  }
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const resolvedParams = await params;
-  const surah = await getSurahById(Number(resolvedParams.id));
-  
-  if (!surah) {
+  try {
+    const resolvedParams = await params;
+    const surahNumber = Number(resolvedParams.id);
+    const result = await getSurahDetail(surahNumber);
+
+    if (!result) {
+      return {
+        title: "Surah Not Found",
+      };
+    }
+
+    const surah = result.surah;
+
     return {
-      title: 'Surah Not Found',
+      title: `${surah.englishName} (${surah.name}) - Quran App`,
+      description: `Read Surah ${surah.englishName} (${surah.englishNameTranslation}) - ${surah.numberOfAyahs} ayahs, ${surah.revelationType} revelation`,
+      keywords: [
+        surah.englishName,
+        surah.name,
+        "Quran",
+        "Surah",
+        surah.revelationType,
+      ],
+      openGraph: {
+        title: `${surah.englishName} - Quran App`,
+        description: `Read Surah ${surah.englishName} with translations and interpretations`,
+        type: "article",
+      },
+    };
+  } catch (error) {
+    console.error("Error generating metadata:", error);
+    return {
+      title: "Surah - Quran App",
     };
   }
-
-  return {
-    title: `${surah.englishName} (${surah.name}) - Quran App`,
-    description: `Read Surah ${surah.englishName} (${surah.englishNameTranslation}) - ${surah.numberOfAyahs} ayahs, ${surah.revelationType} revelation`,
-    keywords: [surah.englishName, surah.name, 'Quran', 'Surah', surah.revelationType],
-  };
 }
 
-export default async function SurahPage({ params }: Props) {
-  const resolvedParams = await params;
-  const surahNumber = Number(resolvedParams.id);
-  
-  const [surah, ayahs] = await Promise.all([
-    getSurahById(surahNumber),
-    getAyahsBySurah(surahNumber),
-  ]);
+// Revalidate the page every hour
+export const revalidate = 3600;
 
-  if (!surah) {
+export default async function SurahPage({ params }: Props) {
+  try {
+    const resolvedParams = await params;
+    const surahNumber = Number(resolvedParams.id);
+
+    if (isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
+      notFound();
+    }
+
+    const result = await getSurahDetail(surahNumber);
+
+    if (!result) {
+      notFound();
+    }
+
+    return <SurahDetailClient surah={result.surah} ayahs={result.ayahs} />;
+  } catch (error) {
+    console.error("Error loading surah:", error);
     notFound();
   }
-
-  return <SurahDetailClient surah={surah} ayahs={ayahs} />;
 }

@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import { motion } from 'motion/react';
-import { type Ayah } from '@/lib/quran-data';
-import { useSettings } from '@/context/SettingsContext';
+import { memo } from "react";
+import { motion } from "motion/react";
+import { type Ayah } from "@/lib/quran-data";
+import { useSettings } from "@/context/SettingsContext";
 
 interface AyahItemProps {
   ayah: Ayah;
 }
 
-export function AyahItem({ ayah }: AyahItemProps) {
+function AyahItemComponent({ ayah }: AyahItemProps) {
   const { arabicFont, arabicFontSize, translationFontSize } = useSettings();
 
   return (
@@ -21,7 +22,9 @@ export function AyahItem({ ayah }: AyahItemProps) {
       {/* Ayah Number Badge */}
       <div className="flex justify-end mb-4">
         <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-accent/20 border border-accent/30">
-          <span className="text-accent-foreground text-sm font-medium">{ayah.number}</span>
+          <span className="text-accent-foreground text-sm font-medium">
+            {ayah.number}
+          </span>
         </div>
       </div>
 
@@ -32,7 +35,7 @@ export function AyahItem({ ayah }: AyahItemProps) {
           style={{
             fontFamily: arabicFont,
             fontSize: `${arabicFontSize}px`,
-            lineHeight: '2',
+            lineHeight: "2",
           }}
         >
           {ayah.text}
@@ -53,3 +56,5 @@ export function AyahItem({ ayah }: AyahItemProps) {
     </motion.div>
   );
 }
+
+export const AyahItem = memo(AyahItemComponent);

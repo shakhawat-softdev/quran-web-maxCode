@@ -1,18 +1,25 @@
-'use client';
+"use client";
 
-import { motion, AnimatePresence } from 'motion/react';
-import { X, Type, Settings as SettingsIcon } from 'lucide-react';
-import { useSettings } from '@/context/SettingsContext';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/src/app/components/ui/select';
-import { Slider } from '@/src/app/components/ui/slider';
-import { Label } from '@/src/app/components/ui/label';
+import { memo, useCallback } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { X, Type, Settings as SettingsIcon } from "lucide-react";
+import { useSettings } from "@/context/SettingsContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/app/components/ui/select";
+import { Slider } from "@/src/app/components/ui/slider";
+import { Label } from "@/src/app/components/ui/label";
 
 interface SettingsSidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
+function SettingsSidebarComponent({ isOpen, onClose }: SettingsSidebarProps) {
   const {
     arabicFont,
     setArabicFont,
@@ -21,6 +28,27 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
     translationFontSize,
     setTranslationFontSize,
   } = useSettings();
+
+  const handleArabicFontChange = useCallback(
+    (value: string) => {
+      setArabicFont(value as any);
+    },
+    [setArabicFont],
+  );
+
+  const handleArabicFontSizeChange = useCallback(
+    (value: number[]) => {
+      setArabicFontSize(value[0]);
+    },
+    [setArabicFontSize],
+  );
+
+  const handleTranslationFontSizeChange = useCallback(
+    (value: number[]) => {
+      setTranslationFontSize(value[0]);
+    },
+    [setTranslationFontSize],
+  );
 
   return (
     <>
@@ -44,7 +72,7 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
             initial={{ x: -320 }}
             animate={{ x: 0 }}
             exit={{ x: -320 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+            transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed left-0 top-0 bottom-0 w-80 bg-sidebar border-r border-sidebar-border shadow-2xl z-50 overflow-y-auto"
           >
             {/* Header */}
@@ -53,7 +81,9 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
                 <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
                   <SettingsIcon className="w-5 h-5 text-primary" />
                 </div>
-                <h2 className="font-['Poppins'] text-sidebar-foreground">Settings</h2>
+                <h2 className="font-['Poppins'] text-sidebar-foreground">
+                  Settings
+                </h2>
               </div>
               <button
                 onClick={onClose}
@@ -71,13 +101,18 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
                   <Type className="w-4 h-4" />
                   Arabic Font
                 </Label>
-                <Select value={arabicFont} onValueChange={(value) => setArabicFont(value as any)}>
+                <Select
+                  value={arabicFont}
+                  onValueChange={handleArabicFontChange}
+                >
                   <SelectTrigger className="w-full">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="Amiri">Amiri</SelectItem>
-                    <SelectItem value="Scheherazade New">Scheherazade New</SelectItem>
+                    <SelectItem value="Scheherazade New">
+                      Scheherazade New
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <div className="pt-2">
@@ -94,11 +129,13 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
               <div className="space-y-3">
                 <Label className="flex items-center justify-between text-sidebar-foreground">
                   <span>Arabic Font Size</span>
-                  <span className="text-primary font-medium">{arabicFontSize}px</span>
+                  <span className="text-primary font-medium">
+                    {arabicFontSize}px
+                  </span>
                 </Label>
                 <Slider
                   value={[arabicFontSize]}
-                  onValueChange={([value]) => setArabicFontSize(value)}
+                  onValueChange={handleArabicFontSizeChange}
                   min={20}
                   max={48}
                   step={1}
@@ -110,11 +147,13 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
               <div className="space-y-3">
                 <Label className="flex items-center justify-between text-sidebar-foreground">
                   <span>Translation Font Size</span>
-                  <span className="text-primary font-medium">{translationFontSize}px</span>
+                  <span className="text-primary font-medium">
+                    {translationFontSize}px
+                  </span>
                 </Label>
                 <Slider
                   value={[translationFontSize]}
-                  onValueChange={([value]) => setTranslationFontSize(value)}
+                  onValueChange={handleTranslationFontSizeChange}
                   min={12}
                   max={24}
                   step={1}
@@ -136,3 +175,5 @@ export function SettingsSidebar({ isOpen, onClose }: SettingsSidebarProps) {
     </>
   );
 }
+
+export const SettingsSidebar = memo(SettingsSidebarComponent);

@@ -1,19 +1,20 @@
-'use client';
+"use client";
 
-import { motion } from 'motion/react';
-import Link from 'next/link';
-import { type Surah } from '@/lib/quran-data';
-import { BookOpen } from 'lucide-react';
+import { memo } from "react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import { type Surah } from "@/lib/quran-data";
+import { BookOpen } from "lucide-react";
 
 interface SurahCardProps {
   surah: Surah;
 }
 
-export function SurahCard({ surah }: SurahCardProps) {
+function SurahCardComponent({ surah }: SurahCardProps) {
   return (
     <Link href={`/surah/${surah.number}`}>
       <motion.div
-        whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(6, 95, 70, 0.15)' }}
+        whileHover={{ y: -4, boxShadow: "0 12px 24px rgba(6, 95, 70, 0.15)" }}
         transition={{ duration: 0.2 }}
         className="bg-card rounded-xl p-6 border border-border shadow-sm hover:border-primary/30 cursor-pointer group"
       >
@@ -32,10 +33,14 @@ export function SurahCard({ surah }: SurahCardProps) {
                 <h3 className="font-['Poppins'] text-foreground group-hover:text-primary transition-colors">
                   {surah.englishName}
                 </h3>
-                <p className="text-sm text-muted-foreground">{surah.englishNameTranslation}</p>
+                <p className="text-sm text-muted-foreground">
+                  {surah.englishNameTranslation}
+                </p>
               </div>
               <div className="text-right">
-                <p className="font-['Amiri'] text-2xl text-primary leading-tight mb-1">{surah.name}</p>
+                <p className="font-['Amiri'] text-2xl text-primary leading-tight mb-1">
+                  {surah.name}
+                </p>
               </div>
             </div>
 
@@ -54,3 +59,5 @@ export function SurahCard({ surah }: SurahCardProps) {
     </Link>
   );
 }
+
+export const SurahCard = memo(SurahCardComponent);
