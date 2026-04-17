@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getSurahs, getSurahDetail } from "@/lib/api";
+import { getSurahs, getSurahDetail } from "@/service/api";
 import SurahDetailClient from "./SurahDetailClient";
 
 type Props = {

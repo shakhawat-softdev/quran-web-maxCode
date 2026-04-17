@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { getSurahs } from "@/lib/api";
+import { getSurahs } from "@/service/api";
 import { SurahListClient } from "./SurahListClient";
 
 export const metadata: Metadata = {

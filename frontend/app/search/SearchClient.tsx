@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import Link from "next/link";
 import { motion } from "motion/react";
 import { ArrowLeft, Search as SearchIcon, Loader2 } from "lucide-react";
-import { searchAyahs } from "@/lib/api";
+import { searchAyahs } from "@/service/api";
 import { SearchBar } from "@/components/SearchBar";
 import { AyahItem } from "@/components/AyahItem";
 import { SettingsSidebar } from "@/components/SettingsSidebar";
