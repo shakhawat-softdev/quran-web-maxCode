@@ -10,9 +10,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/src/app/components/ui/select";
-import { Slider } from "@/src/app/components/ui/slider";
-import { Label } from "@/src/app/components/ui/label";
+} from "@/components/ui/select";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 
 interface SettingsSidebarProps {
   isOpen: boolean;
