@@ -1,12 +1,5 @@
 {
-  "projects": [
-    {
-      "name": "quran-api",
-      "root": "backend"
-    },
-    {
-      "name": "quran-frontend",
-      "root": "frontend"
-    }
-  ]
+  "buildCommand": "cd backend && npm run build",
+  "outputDirectory": "backend/dist",
+  "api": "backend/api"
 }
