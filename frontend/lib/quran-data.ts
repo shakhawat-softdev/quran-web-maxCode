@@ -10,11 +10,13 @@ export interface Surah {
 export interface Ayah {
   number: number;
   text: string;
-  numberInSurah: number;
-  juz: number;
-  manzil: number;
-  page: number;
-  ruku: number;
-  hizbQuarter: number;
-  sajdah: boolean;
+  translation: string;
+  surah: number;
+  numberInSurah?: number;
+  juz?: number;
+  manzil?: number;
+  page?: number;
+  ruku?: number;
+  hizbQuarter?: number;
+  sajdah?: boolean;
 }
