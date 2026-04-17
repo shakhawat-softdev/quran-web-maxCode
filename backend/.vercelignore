@@ -1,0 +1,10 @@
+node_modules
+src
+*.ts
+tsconfig.json
+.env.local
+.env
+.gitignore
+README.md
+.git
+dist/.d.ts
