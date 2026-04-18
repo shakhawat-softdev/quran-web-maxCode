@@ -1,35 +1,32 @@
 import { Hono } from "hono";
 import { handle } from "hono/vercel";
 
-// Import from backend's compiled output after build
-// The backend is built to ./backend/dist/
-// In production, we reference the source directly which gets compiled by Vercel
+const app = new Hono();
 
-// For Vercel, we'll create a simple proxy that imports from backend source
-let app: Hono;
+// Try to import backend routes if compiled
+let hasBackend = false;
 
 try {
-  // Try to import from compiled backend (after build)
-  const quranRoutes = await import("../backend/dist/routes/quran.routes.js");
-  app = new Hono();
-  app.route("/v1", quranRoutes.default);
+  const { default: quranRoutes } =
+    await import("../backend/dist/routes/quran.routes.js");
+  app.route("/v1", quranRoutes);
+  hasBackend = true;
 } catch (error) {
-  // Fallback: Create a basic app that returns error
-  app = new Hono();
-  app.get("/*", (c) => {
+  console.error("Backend routes not available:", error);
+}
+
+// Root API status endpoint
+app.get("/", (c) => {
+  if (!hasBackend) {
     return c.json(
       {
-        error:
-          "Backend not available - ensure backend is built before deployment",
-        message: "Run: cd backend && npm run build",
+        error: "Backend not loaded",
+        message: "Backend routes failed to load - check deployment logs",
       },
       500,
     );
-  });
-}
+  }
 
-// Root API endpoint
-app.get("/", (c) => {
   return c.json({
     success: true,
     message: "Quran API v1.0.0 is running",
@@ -40,6 +37,17 @@ app.get("/", (c) => {
       status: "/api/v1/status",
     },
   });
+});
+
+// For any unmatched API routes
+app.notFound((c) => {
+  return c.json(
+    {
+      error: "Endpoint not found",
+      available: "/api/v1/*",
+    },
+    404,
+  );
 });
 
 export default handle(app);
