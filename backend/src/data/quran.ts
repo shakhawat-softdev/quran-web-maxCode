@@ -1,7 +1,9 @@
 // Quran dataset with all 114 surahs
 // Complete ayah data loaded from external JSON file
-import ayahDataJSON from "./quran-complete.json" assert { type: "json" };
-
+// import ayahDataJSON from "./quran-complete.json" with { type: "json" };
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+const ayahDataJSON = require("./quran-complete.json");
 export interface Ayah {
   ayah_number: number;
   arabic_text: string;
