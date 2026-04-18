@@ -12,7 +12,6 @@ export const config = {
   runtime: "nodejs20.x",
 };
 
-// ✅ No basePath — your routes already have /api/v1/ hardcoded
 const app = new Hono();
 
 app.use("*", errorMiddleware);
