@@ -1,22 +1,46 @@
+# Dependencies
 node_modules/
-dist/
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-pnpm-debug.log*
+
+# Build
+dist/
+build/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
 .env.*.local
-!.env.example
-.vercel/
-.cache/
-coverage/
-.nyc_output/
-.tsbuildinfo
-.eslintcache
-.DS_Store
+
+# Runtime
+*.pid
+*.seed
+*.pid.lock
+
+# OS
 Thumbs.db
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Temporary
+.tmp/
+temp/

@@ -1,64 +1,72 @@
 import { Hono } from "hono";
-import { surahRoutes, searchRoutes } from "./routes/v1.js";
-import { cors } from "./middleware/cors.js";
-import { createRateLimiter } from "./middleware/rateLimit.js";
-import { errorHandler, logger } from "./middleware/index.js";
-import { successResponse, errorResponse } from "./utils/response.js";
+import { serve } from "@hono/node-server";
+import {
+  errorHandler,
+  requestLogger,
+  corsMiddleware,
+  createRateLimiter,
+  cacheControl,
+} from "./middleware/index.js";
+import quranRoutes from "./routes/quran.routes.js";
 
 const app = new Hono();
 
-// Middleware
-app.use(logger);
+// Global middleware - must be added before routes
 app.use(errorHandler);
+app.use(requestLogger);
+app.use(corsMiddleware);
 
-// CORS Configuration
-app.use(
-  "*",
-  cors({
-    origin: ["*"], // Allow all origins. Change to specific domains for production
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
-    exposeHeaders: [
-      "Content-Length",
-      "X-RateLimit-Limit",
-      "X-RateLimit-Remaining",
-      "X-RateLimit-Reset",
-    ],
-    credentials: false,
-  })
-);
+// Rate limiter: 1000 requests per minute per IP
+app.use(createRateLimiter(1000, 60000));
 
-// Rate limiting - 100 requests per minute per IP
-app.use("/api/*", createRateLimiter(60000, 100));
+// Cache control for GET requests
+app.use(cacheControl(300));
 
 // Health check
-app.get("/health", (c) => {
-  return successResponse(c, { status: "ok" }, "Server is running");
-});
-
-// API Info
-app.get("/api", (c) => {
-  return successResponse(
-    c,
-    {
-      name: "Quran API",
-      version: "1.0.0",
-      description: "A scalable Quran API built with Hono",
-      endpoints: {
-        v1: "/api/v1",
-      },
+app.get("/", (c) => {
+  return c.json({
+    success: true,
+    message: "Quran API v1.0.0 is running",
+    docs: "https://github.com/shakhawat/quran-api",
+    endpoints: {
+      surahs: "/api/v1/surahs",
+      surah: "/api/v1/surah/:id",
+      ayahs: "/api/v1/surah/:id/ayahs",
+      search: "/api/v1/search?q=keyword",
+      status: "/api/v1/status",
     },
-    "API information"
-  );
+  });
 });
 
 // API v1 routes
-app.route("/api/v1", surahRoutes);
-app.route("/api/v1/search", searchRoutes);
+app.route("/api/v1", quranRoutes);
+
+// Backward compatibility without version
+app.route("/api", quranRoutes);
 
 // 404 handler
 app.notFound((c) => {
-  return errorResponse(c, `Endpoint ${c.req.path} not found`, 404);
+  return c.json(
+    {
+      success: false,
+      error: "Endpoint not found",
+      available_endpoints: {
+        surahs: "/api/v1/surahs",
+        surah: "/api/v1/surah/:id",
+        search: "/api/v1/search?q=keyword",
+      },
+    },
+    404,
+  );
 });
 
-export default app;
+const port = parseInt(process.env.PORT || "3000");
+
+console.log(`Starting Quran API server on port ${port}...`);
+serve({
+  fetch: app.fetch,
+  port,
+});
+
+console.log(`🚀 Quran API running at http://localhost:${port}`);
+console.log(`📖 API Documentation available at http://localhost:${port}`);
