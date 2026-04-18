@@ -2,17 +2,25 @@
   "version": 2,
   "builds": [
     {
+      "src": "backend/package.json",
+      "use": "@vercel/node@latest"
+    },
+    {
       "src": "frontend/package.json",
-      "use": "@vercel/next@latest",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "use": "@vercel/next@latest"
     }
   ],
   "routes": [
     {
+      "src": "/api/(.*)",
+      "dest": "/backend/dist/index.js"
+    },
+    {
       "src": "/(.*)",
       "dest": "/frontend/$1"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

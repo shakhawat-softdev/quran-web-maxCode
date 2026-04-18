@@ -9,7 +9,7 @@ import {
 } from "./middleware/index.js";
 import quranRoutes from "./routes/quran.routes.js";
 
-const app = new Hono();
+export const app = new Hono();
 
 // Global middleware - must be added before routes
 app.use(errorHandler);
@@ -60,13 +60,19 @@ app.notFound((c) => {
   );
 });
 
-const port = parseInt(process.env.PORT || "3000");
+// Export for Vercel
+export default app;
 
-console.log(`Starting Quran API server on port ${port}...`);
-serve({
-  fetch: app.fetch,
-  port,
-});
+// Local development server (only runs locally, not on Vercel)
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const port = parseInt(process.env.PORT || "3000");
 
-console.log(`🚀 Quran API running at http://localhost:${port}`);
-console.log(`📖 API Documentation available at http://localhost:${port}`);
+  console.log(`Starting Quran API server on port ${port}...`);
+  serve({
+    fetch: app.fetch,
+    port,
+  });
+
+  console.log(`🚀 Quran API running at http://localhost:${port}`);
+  console.log(`📖 API Documentation available at http://localhost:${port}`);
+}
