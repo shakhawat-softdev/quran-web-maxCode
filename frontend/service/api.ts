@@ -3,24 +3,22 @@ import { type Surah, type Ayah } from "@/lib/quran-data";
 // Get backend API URL from environment or default to local
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-
 // Backend response types
 interface BackendSurah {
-  id: number;
-  name_arabic: string;
-  name_english: string;
-  name_transliteration: string;
-  total_ayahs: number;
-  revelation_place?: string;
-  revelation_order?: number;
+  number: number;
+  name: string;
+  englishName: string;
+  englishNameTranslation: string;
+  numberOfAyahs: number;
+  revelationType: string;
 }
 
 interface BackendAyah {
-  ayah_number: number;
-  arabic_text: string;
+  number: number;
+  surah: number;
+  numberInSurah: number;
+  text: string;
   translation: string;
-  surah_id?: number;
-  surah_name?: string;
 }
 
 interface ApiResponse<T> {
@@ -40,13 +38,12 @@ interface SurahListResponse {
 }
 
 interface SurahDetailResponse {
-  id: number;
-  name_arabic: string;
-  name_english: string;
-  name_transliteration: string;
-  total_ayahs: number;
-  revelation_place?: string;
-  revelation_order?: number;
+  number: number;
+  name: string;
+  englishName: string;
+  englishNameTranslation: string;
+  numberOfAyahs: number;
+  revelationType: string;
   ayahs: BackendAyah[];
 }
 
@@ -61,21 +58,21 @@ interface SearchResponse {
 // Mapping functions
 function mapBackendSurahToFrontend(surah: BackendSurah): Surah {
   return {
-    number: surah.id,
-    name: surah.name_arabic,
-    englishName: surah.name_transliteration,
-    englishNameTranslation: surah.name_english,
-    numberOfAyahs: surah.total_ayahs,
-    revelationType: surah.revelation_place === "Mecca" ? "Meccan" : "Medinan",
+    number: surah.number,
+    name: surah.name,
+    englishName: surah.englishName,
+    englishNameTranslation: surah.englishNameTranslation,
+    numberOfAyahs: surah.numberOfAyahs,
+    revelationType: surah.revelationType,
   };
 }
 
 function mapBackendAyahToFrontend(ayah: BackendAyah): Ayah {
   return {
-    number: ayah.ayah_number,
-    text: ayah.arabic_text,
+    number: ayah.number,
+    text: ayah.text,
     translation: ayah.translation,
-    surah: ayah.surah_id || 0,
+    surah: ayah.surah,
   };
 }
 
