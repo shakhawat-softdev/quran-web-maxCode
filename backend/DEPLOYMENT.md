@@ -1,411 +1,481 @@
-# Quran API - Deployment Guide
+# Deployment Guide
 
-## Overview
-The Quran API is a scalable backend service built with Hono, featuring fast responses, in-memory caching, search capabilities, and rate limiting. This guide covers deployment to multiple platforms.
-
-## Architecture Features
-- **Framework**: Hono (lightweight, fast edge runtime support)
-- **Caching**: In-memory caching with TTL support
-- **Search**: Full-text search on ayahs with pagination
-- **Rate Limiting**: Configurable per-IP rate limiting (100 req/15min default)
-- **CORS**: Enabled for cross-origin requests
-- **Error Handling**: Comprehensive error responses
-- **API Versioning**: `/api/v1/` endpoints
-
-## Project Structure
-```
-backend/
-├── src/
-│   ├── index.ts              # Main application entry
-│   ├── controllers/          # Request handlers
-│   ├── services/             # Business logic (Quran, Cache)
-│   ├── middleware/           # CORS, logging, rate limiting
-│   ├── routes/               # API route definitions
-│   ├── data/                 # Quran dataset
-│   ├── types/                # TypeScript types
-│   └── utils/                # Configuration and utilities
-├── package.json              # Dependencies
-├── tsconfig.json             # TypeScript config
-├── Dockerfile                # Container build
-├── docker-compose.yml        # Local dev environment
-├── vercel.json               # Vercel deployment
-├── railway.json              # Railway deployment
-├── render.yaml               # Render deployment
-└── .env.example              # Environment template
-```
+Complete instructions for deploying the Quran API to various platforms.
 
 ## Local Development
 
-### Prerequisites
-- Node.js 18+ (check with: `node --version`)
-- npm or yarn
+### Using npm
 
-### Setup
 ```bash
 # Install dependencies
 npm install
 
-# Copy environment file
-cp .env.example .env
-
-# Run development server with hot reload
+# Start development server
 npm run dev
 
-# Or with Docker
+# Server running at http://localhost:3000
+```
+
+### Using Docker
+
+```bash
+# Build and run with Docker
+docker build -t quran-api .
+docker run -p 3000:3000 quran-api
+
+# Or use Docker Compose
 docker-compose up
 ```
 
-The API will be available at `http://localhost:3000`
+## Production Deployment
 
-### Available Scripts
-```bash
-npm run dev      # Start with hot reload (tsx watch)
-npm run build    # Compile TypeScript to dist/
-npm start        # Run compiled application
-npm run serve    # Build and start
-```
+### 1. Vercel (Recommended for Hono)
 
-## API Endpoints
+Vercel has native support for Hono applications.
 
-### Get All Surahs
-```bash
-GET /api/v1/surahs
+**Step 1:** Create `vercel.json`
 
-# Response
+```json
 {
-  "success": true,
-  "data": {
-    "surahs": [
-      {
-        "id": 1,
-        "name_arabic": "الفاتحة",
-        "name_english": "The Opening",
-        "name_transliteration": "Al-Fatihah",
-        "total_ayahs": 7
-      }
-    ]
-  },
-  "metadata": {
-    "total": 114
-  }
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "nodejs",
+  "nodeVersion": "20.x"
 }
 ```
 
-### Get Surah with Ayahs
+**Step 2:** Push to GitHub
+
 ```bash
-GET /api/v1/surah/:id
-
-# Example: GET /api/v1/surah/1
-# Returns surah details with all ayahs
+git add .
+git commit -m "Add Quran API"
+git push origin main
 ```
 
-### Search Ayahs
-```bash
-GET /api/v1/search?q=mercy&page=1&limit=20
+**Step 3:** Deploy to Vercel
 
-# Response includes pagination metadata
-{
-  "success": true,
-  "data": [
-    {
-      "ayah_number": 1,
-      "arabic_text": "...",
-      "translation": "...",
-      "surah_id": 1,
-      "surah_name": "The Opening"
-    }
-  ],
-  "metadata": {
-    "total": 45,
-    "page": 1,
-    "limit": 20,
-    "hasMore": true
-  }
-}
+1. Go to https://vercel.com/new
+2. Import your repository
+3. Framework Preset: **Other**
+4. Build Command: `npm run build`
+5. Output Directory: `dist`
+6. Click Deploy
+
+**Environment Variables:**
 ```
-
-### Health Check
-```bash
-GET /api/v1/health
-```
-
-### API Info
-```bash
-GET /api/v1/info
-```
-
-## Deployment Platforms
-
-### 1. Vercel (Recommended for Serverless)
-
-**Pros**: Free tier, auto-scaling, global CDN, instant deployments
-**Cons**: Cold starts on serverless, stateless only
-
-#### Steps:
-1. Create account at vercel.com
-2. Connect your GitHub repository
-3. Set environment variables in project settings
-4. Deploy button appears - click to deploy
-
-**Environment Variables**:
-```
-NODE_ENV=production
 PORT=3000
-RATE_LIMIT_MAX=100
+NODE_ENV=production
 ```
 
-**URL**: `https://your-project.vercel.app/api/v1/...`
+**Deploy URL:** `https://your-project.vercel.app/api/v1/surahs`
 
-**Note**: Vercel's free tier works best with Hono. Vercel's Node.js runtime is optimized for Hono deployments.
+### 2. Railway
 
-### 2. Railway (Recommended for Always-On)
+Railway is great for Node.js APIs.
 
-**Pros**: Easy deployment, good free tier, proper container support
-**Cons**: Limited free tier resources
+**Step 1:** Push to GitHub
 
-#### Steps:
-1. Create account at railway.app
-2. Connect GitHub repository or use `railway init`
-3. Railway auto-detects Node.js project
-4. Deploy with `railway up` or via dashboard
+**Step 2:** Connect to Railway
 
-**Local Deployment**:
+1. Go to https://railway.app
+2. Click "New Project"
+3. Select "Deploy from GitHub"
+4. Choose your repository
+
+**Step 3:** Configure
+
+```
+Build Command: npm run build
+Start Command: npm start
+```
+
+**Environment Variables:**
+```
+PORT=8000
+NODE_ENV=production
+```
+
+**Custom Domain:**
+- Go to Settings → Custom Domain
+- Add your domain
+
+**Deploy URL:** `https://your-railway-domain.railway.app/api/v1/surahs`
+
+### 3. Render
+
+Render offers a free tier with good performance.
+
+**Step 1:** Connect GitHub
+
+1. Go to https://render.com
+2. Click "New +"
+3. Select "Web Service"
+4. Connect GitHub repository
+
+**Step 2:** Configure
+
+```
+Name: quran-api
+Environment: Node
+Build Command: npm run build
+Start Command: npm start
+```
+
+**Environment Variables:**
+```
+PORT=10000
+NODE_ENV=production
+```
+
+**Deploy URL:** `https://your-render-service.onrender.com/api/v1/surahs`
+
+### 4. AWS
+
+**Option A: Using Elastic Beanstalk**
+
 ```bash
-# Install Railway CLI
-npm install -g @railway/cli
+# Install EB CLI
+pip install awsebcli
 
-# Login
-railway login
+# Initialize
+eb init -p node.js-20 quran-api
 
-# Link to project
-railway link
+# Create environment
+eb create quran-api-env
 
 # Deploy
-railway up
+eb deploy
+
+# View logs
+eb logs
+
+# Monitor
+eb status
 ```
 
-**Environment Variables** (set in Railway dashboard):
-```
-NODE_ENV=production
-PORT=3000
-RATE_LIMIT_MAX=100
-```
+**Option B: Using Lambda + API Gateway**
 
-**URL**: `https://your-project.up.railway.app/api/v1/...`
+Requires restructuring for serverless. See AWS documentation.
 
-### 3. Render (Alternative Always-On)
+### 5. Google Cloud Run
 
-**Pros**: Built-in database support, good documentation
-**Cons**: More expensive than Railway, longer cold starts
+**Step 1:** Install Cloud SDK
 
-#### Steps:
-1. Create account at render.com
-2. Click "New Web Service"
-3. Connect GitHub repository
-4. Select Node runtime
-5. Update `render.yaml` with your configuration
-6. Deploy
-
-**Configuration** in `render.yaml` is pre-configured.
-
-**Environment Variables**:
-```
-NODE_ENV=production
-PORT=3000
-```
-
-**URL**: `https://your-project.onrender.com/api/v1/...`
-
-### 4. Docker Deployment (AWS, GCP, Digital Ocean, etc.)
-
-#### Using Docker Directly:
 ```bash
-# Build image
-docker build -t quran-api:latest .
+curl https://sdk.cloud.google.com | bash
+gcloud init
+```
 
-# Run container
-docker run -p 3000:3000 \
+**Step 2:** Deploy
+
+```bash
+# Build
+npm run build
+
+# Deploy to Cloud Run
+gcloud run deploy quran-api \
+  --source . \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory 512Mi \
+  --timeout 60s
+```
+
+**Environment Variables:**
+```
+PORT=8080
+NODE_ENV=production
+```
+
+### 6. Azure App Service
+
+**Step 1:** Install Azure CLI
+
+```bash
+# Install from https://aka.ms/installazurecliwindows or use package manager
+curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+```
+
+**Step 2:** Deploy
+
+```bash
+# Login
+az login
+
+# Create resource group
+az group create --name quran-api-rg --location eastus
+
+# Create app service plan
+az appservice plan create --name quran-api-plan --resource-group quran-api-rg --sku B1 --is-linux
+
+# Create web app
+az webapp create --resource-group quran-api-rg --plan quran-api-plan --name quran-api --runtime "NODE|20"
+
+# Deploy
+az webapp deployment source config-zip --resource-group quran-api-rg --name quran-api --src dist.zip
+```
+
+## Docker Deployment
+
+### Build Docker Image
+
+```bash
+docker build -t quran-api:latest .
+```
+
+### Run Docker Container
+
+```bash
+docker run \
+  -p 3000:3000 \
   -e NODE_ENV=production \
   -e PORT=3000 \
   quran-api:latest
 ```
 
-#### AWS Deployment Example:
+### Docker Registry (Docker Hub)
+
 ```bash
-# Create ECR repository
-aws ecr create-repository --repository-name quran-api
+# Login
+docker login
 
-# Push image to ECR
-docker tag quran-api:latest 123456789.dkr.ecr.us-east-1.amazonaws.com/quran-api:latest
-docker push 123456789.dkr.ecr.us-east-1.amazonaws.com/quran-api:latest
+# Tag image
+docker tag quran-api:latest username/quran-api:latest
 
-# Deploy to ECS Fargate or EC2
+# Push
+docker push username/quran-api:latest
+
+# Pull on server
+docker pull username/quran-api:latest
+docker run -p 3000:3000 username/quran-api:latest
 ```
 
-## Configuration
+## Kubernetes Deployment
 
-### Environment Variables
-Copy `.env.example` to `.env` and customize:
+**Step 1:** Create `k8s-deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quran-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: quran-api
+  template:
+    metadata:
+      labels:
+        app: quran-api
+    spec:
+      containers:
+      - name: quran-api
+        image: quran-api:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: NODE_ENV
+          value: "production"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 3000
+          initialDelaySeconds: 10
+          periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quran-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: quran-api
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
+```
+
+**Step 2:** Deploy
 
 ```bash
-# Node environment
+kubectl apply -f k8s-deployment.yaml
+```
+
+## Load Testing
+
+Test your deployment with Apache Bench or wrk:
+
+```bash
+# Using Apache Bench
+ab -n 1000 -c 10 https://your-api.com/api/v1/surahs
+
+# Using wrk
+wrk -t12 -c400 -d30s https://your-api.com/api/v1/surahs
+```
+
+## Monitoring & Logging
+
+### View Logs
+
+**Vercel:**
+```bash
+vercel logs
+```
+
+**Railway:**
+- Dashboard → Logs tab
+
+**Render:**
+- Service → Logs
+
+**Cloud Run:**
+```bash
+gcloud run services describe quran-api
+```
+
+### Performance Monitoring
+
+Add monitoring services:
+- **New Relic**: https://newrelic.com
+- **Datadog**: https://datadog.com
+- **Sentry**: https://sentry.io (for error tracking)
+
+## SSL/TLS Certificates
+
+Most platforms provide free SSL:
+- Vercel: Automatic
+- Railway: Automatic for custom domains
+- Render: Automatic
+- Google Cloud Run: Automatic
+- Azure: Can use Let's Encrypt
+
+## Environment Variables
+
+Production checklist:
+
+```
 NODE_ENV=production
-
-# Server
-PORT=3000
-HOST=0.0.0.0
-
-# Caching (milliseconds)
-CACHE_TTL=3600000  # 1 hour
-
-# Rate Limiting
-RATE_LIMIT_WINDOW=900000   # 15 minutes
-RATE_LIMIT_MAX=100         # requests per window
-
-# Logging
-LOG_LEVEL=info
-```
-
-### Rate Limiting Tuning
-- For public APIs: `RATE_LIMIT_MAX=50` (stricter)
-- For internal APIs: `RATE_LIMIT_MAX=500` (lenient)
-- Default: `RATE_LIMIT_MAX=100` (balanced)
-
-### Cache TTL Tuning
-- Static data (surahs): Can use longer TTL (1 hour default)
-- Search results: Consider shorter TTL if data changes
-- Default: 3600000ms (1 hour)
-
-## Monitoring
-
-### Health Checks
-All platforms support health checks via:
-```
-GET /api/v1/health
-```
-
-### Logging
-Server logs are printed to stdout and can be viewed via:
-- **Vercel**: Analytics dashboard
-- **Railway**: Deployment logs in dashboard
-- **Render**: Logs tab in service details
-- **Docker**: `docker logs <container-id>`
-
-### Response Headers
-API includes helpful headers:
-```
-X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 95
-Access-Control-Allow-Origin: *
+PORT=3000 (or platform-specified)
+RATE_LIMIT_WINDOW_MS=60000
+RATE_LIMIT_MAX_REQUESTS=100
 ```
 
 ## Performance Optimization
 
-### Current Optimizations
-1. **In-Memory Caching**: Surah list cached for 1 hour
-2. **Pagination**: Search results paginated (default 20 per page, max 100)
-3. **Index Cache**: All surahs pre-loaded in memory on startup
-4. **Efficient Search**: Case-insensitive substring search with early termination
+### CDN Setup
 
-### Future Optimization Options
-1. **Redis Caching**: Replace in-memory cache with Redis
-   ```typescript
-   // Would reduce memory footprint on horizontal scaling
-   ```
-2. **Database Indexing**: Full-text search index in PostgreSQL/MongoDB
-3. **API Response Compression**: gzip middleware
-4. **CDN Caching Headers**: Cache-Control headers for public endpoints
+Use Cloudflare for caching:
+
+1. Add your domain to Cloudflare
+2. Set up caching rules for `/api/*` endpoints
+3. Enable Gzip compression
+4. Use HTTP/2 Push
+
+### Response Caching
+
+Add cache headers in `src/index.ts`:
+
+```typescript
+app.get("/api/v1/surahs", (c) => {
+  c.header("Cache-Control", "public, max-age=3600");
+  // ...
+});
+```
+
+### Database Optimization
+
+For production with large datasets:
+
+```typescript
+// Consider using:
+// - PostgreSQL with node-postgres
+// - MongoDB with mongoose
+// - Redis for distributed caching
+```
+
+## Health Checks
+
+Verify deployment:
+
+```bash
+# Check health endpoint
+curl https://your-api.com/health
+
+# Check API endpoint
+curl https://your-api.com/api/v1/surahs | head
+
+# Check rate limiting
+curl -i https://your-api.com/api/v1/surahs
+```
+
+## Rollback Strategy
+
+### Vercel
+```bash
+vercel rollback
+```
+
+### Railway
+- Use deployment history in dashboard
+
+### Render
+- Use automatic rollback or manual deployment selection
+
+## Cost Estimation
+
+| Platform | Free Tier | Estimated Cost (100k req/mo) |
+|----------|-----------|-------------------------------|
+| Vercel   | Yes       | Free to $20/mo                |
+| Railway  | Yes       | $5-10/mo                      |
+| Render   | Yes       | $7/mo                         |
+| Google Cloud Run | Yes | Pay-as-you-go (~$1-5) |
+| AWS | Yes | $1-10/mo                  |
+| Azure | Yes | $7-15/mo                  |
 
 ## Troubleshooting
 
-### Port Already in Use
+### Application won't start
 ```bash
-# On Windows
-netstat -ano | findstr :3000
-taskkill /PID <PID> /F
+npm run build
+npm start
+```
 
-# On macOS/Linux
+### Port already in use
+```bash
+# Find process using port 3000
 lsof -i :3000
+
+# Kill it
 kill -9 <PID>
 ```
 
-### Connection Refused
-- Check if server is running: `npm run dev`
-- Verify PORT environment variable
-- Check firewall settings
+### Out of memory
+- Increase memory allocation
+- Implement pagination for large results
+- Add caching layer
 
-### High Memory Usage
-- Monitor with `node --max-old-space-size=512`
-- Increase cache TTL to reduce refresh frequency
-- Consider external cache (Redis)
+### Slow response times
+- Enable CORS caching
+- Use CDN
+- Optimize database queries
+- Add Redis caching
 
-### Rate Limiting Issues
-- Check client IP header forwarding (X-Forwarded-For)
-- Adjust RATE_LIMIT_MAX for your use case
-- Review rate limit headers in response
+## Support
 
-## Testing
-
-### Manual API Testing
-
-**Using curl**:
-```bash
-# Get all surahs
-curl http://localhost:3000/api/v1/surahs
-
-# Get surah 1
-curl http://localhost:3000/api/v1/surah/1
-
-# Search for "mercy"
-curl "http://localhost:3000/api/v1/search?q=mercy&page=1&limit=10"
-
-# Health check
-curl http://localhost:3000/api/v1/health
-```
-
-**Using Postman/Insomnia**:
-1. Import API endpoints
-2. Set base URL to your deployment
-3. Test each endpoint
-
-### Load Testing
-```bash
-# Using Apache Bench
-ab -n 1000 -c 100 http://localhost:3000/api/v1/surahs
-
-# Using wrk
-wrk -t4 -c100 -d30s http://localhost:3000/api/v1/surahs
-```
-
-## Next Steps
-
-### Scaling to Production
-1. **Add Database**: Integrate PostgreSQL for persistent search index
-2. **Redis Cache**: Replace in-memory cache for distributed deployments
-3. **API Keys**: Add authentication for premium endpoints
-4. **Analytics**: Track endpoint usage and performance
-5. **CDN**: Use Cloudflare for edge caching
-6. **Monitoring**: Set up alerts with Sentry or New Relic
-
-### Data Enhancement
-1. Extend Quran dataset with full 6236 ayahs
-2. Add multiple translations
-3. Add tafsir (commentary)
-4. Add audio URLs for recitation
-
-### API Extensions
-1. Add morphological analysis
-2. Add letter-by-letter breakdown
-3. Add word frequency analysis
-4. Add cross-references between surahs
-
-## Support & Resources
-
-- **Hono Documentation**: https://hono.dev
-- **Vercel Documentation**: https://vercel.com/docs
-- **Railway Documentation**: https://docs.railway.app
-- **Render Documentation**: https://render.com/docs
-- **Docker Documentation**: https://docs.docker.com
-
-## License
-MIT
+For platform-specific issues:
+- Vercel: https://vercel.com/support
+- Railway: https://railway.app/help
+- Render: https://render.com/docs
+- GCP: https://cloud.google.com/support
+- Azure: https://azure.microsoft.com/en-us/support

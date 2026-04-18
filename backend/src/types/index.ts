@@ -1,78 +1,44 @@
-// API Response Types - TypeScript Interfaces
-
-export interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-  metadata?: {
-    total?: number;
-    page?: number;
-    limit?: number;
-    hasMore?: boolean;
-  };
-}
-
-export interface ApiError {
-  success: false;
-  error: {
-    code: string;
-    message: string;
-    status: number;
-  };
-}
-
-export interface SurahListResponse {
-  surahs: SurahSummary[];
-}
-
-export interface SurahSummary {
+export interface Ayah {
   id: number;
-  name_arabic: string;
-  name_english: string;
-  name_transliteration: string;
-  total_ayahs: number;
-}
-
-export interface SurahDetailResponse {
-  id: number;
-  name_arabic: string;
-  name_english: string;
-  name_transliteration: string;
-  total_ayahs: number;
-  revelation_place: string;
-  revelation_order: number;
-  ayahs: AyahData[];
-}
-
-export interface AyahData {
-  ayah_number: number;
-  arabic_text: string;
+  surah: number;
+  number: number;
+  text: string;
   translation: string;
-  surah_id?: number;
-  surah_name?: string;
+  transliteration: string;
+}
+
+export interface Surah {
+  id: number;
+  number: number;
+  name_arabic: string;
+  name_english: string;
+  name_transliteration: string;
+  revelation_type: "Meccan" | "Medinian";
+  total_ayahs: number;
+  description: string;
+  ayahs: Ayah[];
 }
 
 export interface SearchResult {
-  ayah_number: number;
-  arabic_text: string;
-  translation: string;
-  surah_id: number;
+  ayah: Ayah;
   surah_name: string;
+  surah_number: number;
 }
 
-export interface PaginatedSearchResponse {
-  results: SearchResult[];
+export interface PaginatedResponse<T> {
+  data: T[];
   pagination: {
-    current_page: number;
-    per_page: number;
+    page: number;
+    limit: number;
     total: number;
-    total_pages: number;
-    has_more: boolean;
+    pages: number;
   };
 }
 
-export interface CacheEntry<T> {
-  data: T;
-  timestamp: number;
-  ttl: number; // in milliseconds
+export interface ApiResponse<T> {
+  success: boolean;
+  message: string;
+  data?: T;
+  metadata?: Record<string, unknown>;
+  error?: string;
 }

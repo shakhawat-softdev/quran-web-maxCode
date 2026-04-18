@@ -1,0 +1,284 @@
+{
+  "surahs": [
+    {
+      "id": 1,
+      "number": 1,
+      "name_arabic": "الفاتحة",
+      "name_english": "Al-Fatihah",
+      "name_transliteration": "Al-Fatiha",
+      "revelation_type": "Meccan",
+      "total_ayahs": 7,
+      "description": "The Opening",
+      "ayahs": [
+        {
+          "id": 1,
+          "surah": 1,
+          "number": 1,
+          "text": "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+          "translation": "In the name of Allah, the Most Gracious, the Most Merciful",
+          "transliteration": "Bismillah ar-Rahman ar-Rahim"
+        },
+        {
+          "id": 2,
+          "surah": 1,
+          "number": 2,
+          "text": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ",
+          "translation": "All the praises and thanks be to Allah, the Lord of the Alameen (mankind, jinns and all that exists)",
+          "transliteration": "Al-hamdu lillahi rabbi al-aalamin"
+        },
+        {
+          "id": 3,
+          "surah": 1,
+          "number": 3,
+          "text": "الرَّحْمَٰنِ الرَّحِيمِ",
+          "translation": "The Most Gracious, the Most Merciful",
+          "transliteration": "Ar-Rahman ar-Rahim"
+        },
+        {
+          "id": 4,
+          "surah": 1,
+          "number": 4,
+          "text": "مَالِكِ يَوْمِ الدِّينِ",
+          "translation": "The Master of the Day of Judgement",
+          "transliteration": "Malik yawm ad-Din"
+        },
+        {
+          "id": 5,
+          "surah": 1,
+          "number": 5,
+          "text": "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ",
+          "translation": "You (Alone) we worship, and You (Alone) we ask for help (for each and everything)",
+          "transliteration": "Iyyaka na'budu wa iyyaka nasta'in"
+        },
+        {
+          "id": 6,
+          "surah": 1,
+          "number": 6,
+          "text": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+          "translation": "Guide us to the Straight Way",
+          "transliteration": "Ihdinā aṣ-ṣirāṭ al-mustaqīm"
+        },
+        {
+          "id": 7,
+          "surah": 1,
+          "number": 7,
+          "text": "صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ",
+          "translation": "The way of those on whom You have bestowed Your Grace, not (the way) of those who earned Your Anger (such as the Jews), nor of those who went astray (such as the Christians)",
+          "transliteration": "Sirat al-ladhina an'amta 'alayhim ghayri al-maghdub 'alayhim wa la ad-dallin"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "number": 2,
+      "name_arabic": "البقرة",
+      "name_english": "Al-Baqarah",
+      "name_transliteration": "Al-Baqara",
+      "revelation_type": "Medinian",
+      "total_ayahs": 286,
+      "description": "The Cow",
+      "ayahs": [
+        {
+          "id": 8,
+          "surah": 2,
+          "number": 1,
+          "text": "الم",
+          "translation": "Alif, Laam, Meem",
+          "transliteration": "Alif Lam Mim"
+        },
+        {
+          "id": 9,
+          "surah": 2,
+          "number": 2,
+          "text": "ذَٰلِكَ الْكِتَابُ لَا رَيْبَ ۛ فِيهِ ۛ هُدًى لِّلْمُتَّقِينَ",
+          "translation": "This is the Book (the Quran), whereof there is no doubt, a guidance for the Muttaqun (the pious)",
+          "transliteration": "Dhalika al-Kitab la rayb fihi hudan li-al-muttaqin"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "number": 3,
+      "name_arabic": "آل عمران",
+      "name_english": "Ali-'Imran",
+      "name_transliteration": "Al-Imran",
+      "revelation_type": "Medinian",
+      "total_ayahs": 200,
+      "description": "The Family of Imran",
+      "ayahs": [
+        {
+          "id": 11,
+          "surah": 3,
+          "number": 1,
+          "text": "الم",
+          "translation": "Alif, Laam, Meem",
+          "transliteration": "Alif Lam Mim"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "number": 4,
+      "name_arabic": "النساء",
+      "name_english": "An-Nisa",
+      "name_transliteration": "An-Nisa",
+      "revelation_type": "Medinian",
+      "total_ayahs": 176,
+      "description": "The Women",
+      "ayahs": [
+        {
+          "id": 12,
+          "surah": 4,
+          "number": 1,
+          "text": "يَا أَيُّهَا النَّاسُ اتَّقُوا رَبَّكُمُ الَّذِي خَلَقَكُم مِّن نَّفْسٍ وَاحِدَةٍ",
+          "translation": "O mankind! Be dutiful to your Lord, Who created you from a single person and from him created his mate, and from them both created many men and women",
+          "transliteration": "Ya ayyuha an-nas ittaqua rabbakum alladhi khalaqakum min nafsin wahidah"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "number": 5,
+      "name_arabic": "المائدة",
+      "name_english": "Al-Ma'idah",
+      "name_transliteration": "Al-Maidah",
+      "revelation_type": "Medinian",
+      "total_ayahs": 120,
+      "description": "The Table Spread",
+      "ayahs": [
+        {
+          "id": 13,
+          "surah": 5,
+          "number": 1,
+          "text": "يَا أَيُّهَا الَّذِينَ آمَنُوا أَوْفُوا بِالْعُقُودِ",
+          "translation": "O you who have believed, fulfill (your) contracts",
+          "transliteration": "Ya ayyuha alladhina amanu awfu bi-al-'uqud"
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "number": 36,
+      "name_arabic": "يس",
+      "name_english": "Ya-Seen",
+      "name_transliteration": "Yasin",
+      "revelation_type": "Meccan",
+      "total_ayahs": 83,
+      "description": "The Essential One",
+      "ayahs": [
+        {
+          "id": 500,
+          "surah": 36,
+          "number": 1,
+          "text": "يس",
+          "translation": "Ya Seen",
+          "transliteration": "Yasin"
+        },
+        {
+          "id": 501,
+          "surah": 36,
+          "number": 2,
+          "text": "وَالْقُرْآنِ الْحَكِيمِ",
+          "translation": "By the Qur'an, full of wisdom",
+          "transliteration": "Wa-al-Quran al-hakim"
+        },
+        {
+          "id": 502,
+          "surah": 36,
+          "number": 3,
+          "text": "إِنَّكَ لَمِنَ الْمُرْسَلِينَ",
+          "translation": "Indeed, you are from among the messengers",
+          "transliteration": "Innaka lamina al-mursalin"
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "number": 55,
+      "name_arabic": "الرحمن",
+      "name_english": "Ar-Rahman",
+      "name_transliteration": "Ar-Rahman",
+      "revelation_type": "Meccan",
+      "total_ayahs": 78,
+      "description": "The Most Merciful",
+      "ayahs": [
+        {
+          "id": 700,
+          "surah": 55,
+          "number": 1,
+          "text": "الرَّحْمَٰنُ",
+          "translation": "The Most Merciful",
+          "transliteration": "Ar-Rahman"
+        },
+        {
+          "id": 701,
+          "surah": 55,
+          "number": 2,
+          "text": "عَلَّمَ الْقُرْآنَ",
+          "translation": "Has taught the Qur'an",
+          "transliteration": "'Allama al-Quran"
+        }
+      ]
+    },
+    {
+      "id": 114,
+      "number": 114,
+      "name_arabic": "الناس",
+      "name_english": "An-Nas",
+      "name_transliteration": "An-Nas",
+      "revelation_type": "Meccan",
+      "total_ayahs": 6,
+      "description": "Mankind",
+      "ayahs": [
+        {
+          "id": 6200,
+          "surah": 114,
+          "number": 1,
+          "text": "قُلْ أَعُوذُ بِرَبِّ النَّاسِ",
+          "translation": "Say: I seek refuge with (Allah), the Lord of mankind",
+          "transliteration": "Qul a'udhu birabbi an-nas"
+        },
+        {
+          "id": 6201,
+          "surah": 114,
+          "number": 2,
+          "text": "مَلِكِ النَّاسِ",
+          "translation": "The King of mankind",
+          "transliteration": "Maliki an-nas"
+        },
+        {
+          "id": 6202,
+          "surah": 114,
+          "number": 3,
+          "text": "إِلَٰهِ النَّاسِ",
+          "translation": "The Ilah (God) of mankind",
+          "transliteration": "Ilahi an-nas"
+        },
+        {
+          "id": 6203,
+          "surah": 114,
+          "number": 4,
+          "text": "مِن شَرِّ الْوَسْوَاسِ الْخَنَّاسِ",
+          "translation": "From the evil of the Waswas (the devil who whispers) Alkhannas (the one who withdraws)",
+          "transliteration": "Min sharri al-waswasi al-khannas"
+        },
+        {
+          "id": 6204,
+          "surah": 114,
+          "number": 5,
+          "text": "الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ",
+          "translation": "Who whispers in the breasts of mankind",
+          "transliteration": "Alladhi yuwaswisu fi suduri an-nas"
+        },
+        {
+          "id": 6205,
+          "surah": 114,
+          "number": 6,
+          "text": "مِنَ الْجِنَّةِ وَالنَّاسِ",
+          "translation": "From among the jinns and mankind",
+          "transliteration": "Mina al-jinnati wa-an-nas"
+        }
+      ]
+    }
+  ]
+}

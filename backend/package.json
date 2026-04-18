@@ -1,39 +1,31 @@
 {
   "name": "quran-api",
   "version": "1.0.0",
-  "description": "Scalable Quran API using Hono with search, caching, and rate limiting",
+  "description": "Scalable Quran API built with Hono",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "tsc -p .",
-    "start": "node dist/index.js",
-    "preview": "node dist/index.js",
-    "serve": "npm run build && npm start",
-    "lint": "eslint src || true"
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "preview": "npm run build && npm start",
+    "lint": "eslint src --ext .ts",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [
     "quran",
     "api",
     "hono",
-    "scalable",
-    "search",
-    "caching",
-    "rate-limiting"
+    "node"
   ],
   "author": "",
   "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "dependencies": {
-    "hono": "^4.0.0",
-    "@hono/node-server": "^1.0.0",
-    "@hono/swagger-ui": "^0.3.0"
+    "hono": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
-    "tsx": "^4.0.0",
-    "typescript": "^5.0.0"
+    "typescript": "^5.3.3",
+    "tsx": "^4.7.0"
   }
 }

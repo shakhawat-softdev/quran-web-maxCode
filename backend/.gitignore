@@ -1,68 +1,22 @@
-# Dependencies
 node_modules/
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
-
-# Build output
 dist/
-build/
-*.tsbuildinfo
-
-# Environment variables
-.env
-.env.local
-.env.*.local
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-.DS_Store
-.project
-.classpath
-.c9/
-
-# Logs
-logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# Runtime data
-pids/
-*.pid
-*.seed
-*.pid.lock
-
-# Coverage
+pnpm-debug.log*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+!.env.example
+.vercel/
+.cache/
 coverage/
 .nyc_output/
-
-# OS
+.tsbuildinfo
+.eslintcache
 .DS_Store
 Thumbs.db
-desktop.ini
-
-# Deployment
-.vercel/
-.railway/
-
-# Misc
-*.pem
-*.key
-*.crt
-.env.production
-.env.staging
-
-# Testing
-.jest/
-test-results/
-
-# Temp files
-tmp/
-temp/
-*.tmp

@@ -5,35 +5,34 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Build outputs
-.next/
-out/
-build/
-dist/
-
 # Environment variables
 .env
 .env.local
 .env.*.local
-.env.production.local
 
-# IDE
+# Build outputs
+.next/
+out/
+dist/
+build/
+
+# IDE and editor files
 .vscode/
 .idea/
 *.swp
 *.swo
-*.swn
-*.iml
+*~
 .DS_Store
 
-# OS
+# OS files
 Thumbs.db
-.DS_Store
+
+# Vercel
+.vercel/
 
 # Testing
 coverage/
 .nyc_output/
 
-# Misc
-*.log
+# Turbo
 .turbo/
