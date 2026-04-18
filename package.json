@@ -1,0 +1,25 @@
+{
+  "name": "quran-web-maxcode",
+  "version": "1.0.0",
+  "description": "Complete Quran Application - Frontend and Backend",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev --prefix frontend\" \"npm run dev --prefix backend\"",
+    "build": "npm run build --prefix frontend && npm run build --prefix backend",
+    "start": "npm start --prefix backend",
+    "lint": "npm run lint --prefix frontend && npm run lint --prefix backend",
+    "format": "npm run format --prefix frontend && npm run format --prefix backend"
+  },
+  "keywords": [
+    "quran",
+    "api",
+    "nextjs",
+    "hono",
+    "react"
+  ],
+  "author": "Quran Web",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
