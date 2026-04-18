@@ -5,18 +5,19 @@ import { createRequire } from "module";
 import { dirname, join } from "path";
 import { readFileSync } from "fs";
 import { fileURLToPath } from "url";
+import ayahDataJSON from "./ayah-data.js";
 const require = createRequire(import.meta.url);
 // ✅ Resolve absolute path relative to THIS file — works on Vercel
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 
-const ayahDataJSON = JSON.parse(
-  readFileSync(
-    fileURLToPath(new URL("./quran-complete.json", import.meta.url)),
-    "utf-8",
-  ),
-);
+// const ayahDataJSON = JSON.parse(
+//   readFileSync(
+//     fileURLToPath(new URL("./quran-complete.json", import.meta.url)),
+//     "utf-8",
+//   ),
+// );
 console.log("JSON loaded, keys:", Object.keys(ayahDataJSON).length);
 export interface Ayah {
   ayah_number: number;

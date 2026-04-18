@@ -13,3 +13,4 @@ Dockerfile
 dist
 railway.json
 render.yaml
+ayah-data.ts
