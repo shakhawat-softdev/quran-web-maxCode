@@ -21,7 +21,15 @@ export interface Surah {
   revelation_order: number;
   ayahs?: Ayah[];
 }
-
+export interface SearchIndex {
+  surah_id: number;
+  surah_name: string;
+  ayah_number: number;
+  arabic_text: string;
+  translation: string;
+  transliteration?: string;
+  searchText: string; // pre-lowercased for fast matching
+}
 // Surah metadata - complete list of all 114 surahs
 export const surahMetadata: Surah[] = [
   {
@@ -1061,6 +1069,27 @@ const ayahDatabase: Record<number, Ayah[]> = (() => {
     data[surahId] = value as Ayah[];
   }
   return data;
+})();
+
+export const searchIndex: SearchIndex[] = (() => {
+  const index: SearchIndex[] = [];
+  for (const surah of surahMetadata) {
+    const ayahs = ayahDatabase[surah.id] || [];
+    for (const ayah of ayahs) {
+      index.push({
+        surah_id: surah.id,
+        surah_name: surah.name_english,
+        ayah_number: ayah.ayah_number,
+        arabic_text: ayah.arabic_text,
+        translation: ayah.translation,
+        transliteration: ayah.transliteration,
+        // ✅ Pre-lowercase once here instead of on every search request
+        searchText:
+          `${ayah.translation} ${ayah.transliteration ?? ""}`.toLowerCase(),
+      });
+    }
+  }
+  return index;
 })();
 
 export function getAyahsBySurah(surahId: number): Ayah[] {
