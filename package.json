@@ -20,6 +20,9 @@
   "author": "Quran Web",
   "license": "MIT",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "hono": "^4.0.0",
+    "@hono/node-server": "^1.2.0",
+    "lodash": "^4.17.21"
   }
 }
